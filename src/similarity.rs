@@ -19,9 +19,17 @@ pub fn cosine<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
     numerator / denominator
 }
 
+pub fn kulczynski<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
+    1.0 / crate::distance::kulczynski(p, q)
+}
+
+pub fn dice<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
+    1.0 - crate::distance::dice(p, q)
+}
+
 #[cfg(test)]
 mod tests {
-    use crate as distance;
+    use crate::similarity;
 
     const P: [f64; 3] = [0.000, 1.700, 2.350];
     const Q: [f64; 3] = [0.300, 1.700, 1.001];
@@ -31,13 +39,13 @@ mod tests {
 
     #[test]
     fn cosine_f64() {
-        let result = distance::cosine(&P, &Q);
+        let result = similarity::cosine(&P, &Q);
         assert_relative_eq!(result, 0.905759279, epsilon = 1e-9);
     }
 
     #[test]
     fn cosine_u32() {
-        let result = distance::cosine(&P2, &Q2);
+        let result = similarity::cosine(&P2, &Q2);
         assert_relative_eq!(result, 0.5976143047, epsilon = 1e-9);
     }
 }

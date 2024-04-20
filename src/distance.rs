@@ -292,7 +292,7 @@ pub fn avg<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
 
 #[cfg(test)]
 mod tests {
-    use crate as distance;
+    use crate::distance;
 
     const P: [f64; 3] = [0.000, 1.700, 2.350];
     const Q: [f64; 3] = [0.300, 1.700, 1.001];
