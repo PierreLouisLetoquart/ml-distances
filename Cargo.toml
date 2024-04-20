@@ -1,0 +1,13 @@
+[package]
+name = "ml-distance"
+version = "0.1.0"
+edition = "2021"
+authors = ["Pierre-Louis Létoquart <randlgint@proton.me>"]
+description = ""
+license = "MIT"
+homepage = ""
+repository = ""
+keywords = ["vector-db", "vector", "distances", "similarity", "cosine distance", "l2 norm"]
+
+[dependencies]
+approx = "0.5.1"
