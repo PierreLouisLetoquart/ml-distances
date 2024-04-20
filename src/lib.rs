@@ -96,7 +96,6 @@ pub fn lorentzian<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
         .sum()
 }
 
-// d(p,q)=\frac{1}{2}\sum\limits_{i=1}^{n}{\left|p_i - q_i\right|}
 pub fn intersection<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
     p.iter()
         .map(|&p| p.into())
@@ -105,7 +104,7 @@ pub fn intersection<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
         .sum::<f64>()
         / 2.0
 }
-// d(p,q)=\sum\limits_{i=1}^{n}{\frac{\left|p_i - q_i\right|}{max(p_i,q_i)}}
+
 pub fn wave_hedges<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
     p.iter()
         .map(|&p| p.into())
@@ -159,15 +158,41 @@ pub fn tanimoto<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
 }
 
 pub fn inner_product<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| p_i * q_i)
+        .sum()
 }
 
 pub fn harmonic_mean<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    2.0 * p
+        .iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| (p_i * q_i) / (p_i + q_i))
+        .sum::<f64>()
 }
 
 pub fn cosine<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    let numerator = p
+        .iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| p_i * q_i)
+        .sum::<f64>();
+    let denominator = p
+        .iter()
+        .map(|&p| p.into())
+        .map(|p_i| p_i * p_i)
+        .sum::<f64>()
+        .sqrt()
+        * q.iter()
+            .map(|&q| q.into())
+            .map(|q_i| q_i * q_i)
+            .sum::<f64>()
+            .sqrt();
+    numerator / denominator
 }
 
 pub fn kumar_hassebrook<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
@@ -463,5 +488,41 @@ mod tests {
     fn ruzicka_u32() {
         let result = distance::ruzicka(&P2, &Q2);
         assert_relative_eq!(result, 0.285714286, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn inner_product_f64() {
+        let result = distance::inner_product(&P, &Q);
+        assert_relative_eq!(result, 5.24235, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn inner_product_u32() {
+        let result = distance::inner_product(&P2, &Q2);
+        assert_relative_eq!(result, 5.0, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn harmonic_mean_f64() {
+        let result = distance::harmonic_mean(&P, &Q);
+        assert_relative_eq!(result, 3.1039689645, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn harmonic_mean_u32() {
+        let result = distance::harmonic_mean(&P2, &Q2);
+        assert_relative_eq!(result, 2.833333333, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn cosine_f64() {
+        let result = distance::cosine(&P, &Q);
+        assert_relative_eq!(result, 0.905759279, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn cosine_u32() {
+        let result = distance::cosine(&P2, &Q2);
+        assert_relative_eq!(result, 0.5976143047, epsilon = 1e-9);
     }
 }
