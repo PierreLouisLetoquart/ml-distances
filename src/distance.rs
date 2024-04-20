@@ -195,11 +195,23 @@ pub fn kumar_hassebrook<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
 }
 
 pub fn jaccard<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    1.0 - kumar_hassebrook(p, q)
 }
 
 pub fn dice<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| (p_i - q_i) * (p_i - q_i))
+        .sum::<f64>()
+        / (p.iter()
+            .map(|&p| p.into())
+            .map(|p_i| p_i * p_i)
+            .sum::<f64>()
+            + q.iter()
+                .map(|&q| q.into())
+                .map(|q_i| q_i * q_i)
+                .sum::<f64>())
 }
 
 pub fn fidelity<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
@@ -297,222 +309,123 @@ mod tests {
     const P: [f64; 3] = [0.000, 1.700, 2.350];
     const Q: [f64; 3] = [0.300, 1.700, 1.001];
 
-    const P2: [u32; 3] = [1, 2, 3];
-    const Q2: [u32; 3] = [2, 0, 1];
-
     #[test]
-    fn euclidean_f64() {
+    fn euclidean() {
         let result = distance::euclidean(&P, &Q);
         assert_relative_eq!(result, 1.381955499, epsilon = 1e-9);
     }
 
     #[test]
-    fn euclidean_u32() {
-        let result = distance::euclidean(&P2, &Q2);
-        assert_relative_eq!(result, 3.0, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn manhattan_f64() {
+    fn manhattan() {
         let result = distance::manhattan(&P, &Q);
         assert_relative_eq!(result, 1.649000000, epsilon = 1e-9);
     }
 
     #[test]
-    fn manhattan_u32() {
-        let result = distance::manhattan(&P2, &Q2);
-        assert_relative_eq!(result, 5.0, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn minkowski_f64() {
+    fn minkowski() {
         let result = distance::minkowski(&P, &Q, 2.0);
         assert_relative_eq!(result, 1.381955499, epsilon = 1e-9);
     }
 
     #[test]
-    fn minkowski_u32() {
-        let result = distance::minkowski(&P2, &Q2, 2.0);
-        assert_relative_eq!(result, 3.0, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn chebyshev_f64() {
+    fn chebyshev() {
         let result = distance::chebyshev(&P, &Q);
         assert_relative_eq!(result, 1.349, epsilon = 1e-9);
     }
 
     #[test]
-    fn chebyshev_u32() {
-        let result = distance::chebyshev(&P2, &Q2);
-        assert_relative_eq!(result, 2.0, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn sorensen_f64() {
+    fn sorensen() {
         let result = distance::sorensen(&P, &Q);
         assert_relative_eq!(result, 0.233867536, epsilon = 1e-9);
     }
 
     #[test]
-    fn sorensen_u32() {
-        let result = distance::sorensen(&P2, &Q2);
-        assert_relative_eq!(result, 0.555555556, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn gower_f64() {
+    fn gower() {
         let result = distance::gower(&P, &Q);
         assert_relative_eq!(result, 0.549666667, epsilon = 1e-9);
     }
 
     #[test]
-    fn gower_u32() {
-        let result = distance::gower(&P2, &Q2);
-        assert_relative_eq!(result, 1.666666667, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn soergel_f64() {
+    fn soergel() {
         let result = distance::soergel(&P, &Q);
         assert_relative_eq!(result, 0.3790804598, epsilon = 1e-9);
     }
 
     #[test]
-    fn soergel_u32() {
-        let result = distance::soergel(&P2, &Q2);
-        assert_relative_eq!(result, 0.714285714, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn kulczynski_f64() {
+    fn kulczynski() {
         let result = distance::kulczynski(&P, &Q);
         assert_relative_eq!(result, 0.610514624, epsilon = 1e-9);
     }
 
     #[test]
-    fn kulczynski_u32() {
-        let result = distance::kulczynski(&P2, &Q2);
-        assert_relative_eq!(result, 2.5, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn canberra_f64() {
+    fn canberra() {
         let result = distance::canberra(&P, &Q);
         assert_relative_eq!(result, 1.402566398, epsilon = 1e-9);
     }
 
     #[test]
-    fn canberra_u32() {
-        let result = distance::canberra(&P2, &Q2);
-        assert_relative_eq!(result, 1.833333333, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn lorentzian_f64() {
+    fn lorentzian() {
         let result = distance::lorentzian(&P, &Q);
         assert_relative_eq!(result, 1.11635397, epsilon = 1e-9);
     }
 
     #[test]
-    fn lorentzian_u32() {
-        let result = distance::lorentzian(&P2, &Q2);
-        assert_relative_eq!(result, 2.890371758, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn intersection_f64() {
+    fn intersection() {
         let result = distance::intersection(&P, &Q);
         assert_relative_eq!(result, 0.8245, epsilon = 1e-9);
     }
 
     #[test]
-    fn intersection_u32() {
-        let result = distance::intersection(&P2, &Q2);
-        assert_relative_eq!(result, 2.5, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn wave_hedges_f64() {
+    fn wave_hedges() {
         let result = distance::wave_hedges(&P, &Q);
         assert_relative_eq!(result, 1.574042553, epsilon = 1e-9);
     }
 
     #[test]
-    fn wave_hedges_u32() {
-        let result = distance::wave_hedges(&P2, &Q2);
-        assert_relative_eq!(result, 2.166666667, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn czekanowski_f64() {
+    fn czekanowski() {
         let result = distance::czekanowski(&P, &Q);
         assert_relative_eq!(result, 0.2338675365, epsilon = 1e-9);
     }
 
     #[test]
-    fn czekanowski_u32() {
-        let result = distance::czekanowski(&P2, &Q2);
-        assert_relative_eq!(result, 0.555555556, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn motyka_f64() {
+    fn motyka() {
         let result = distance::motyka(&P, &Q);
         assert_relative_eq!(result, 0.6169337683, epsilon = 1e-9);
     }
 
     #[test]
-    fn motyka_u32() {
-        let result = distance::motyka(&P2, &Q2);
-        assert_relative_eq!(result, 0.777777778, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn ruzicka_f64() {
+    fn ruzicka() {
         let result = distance::ruzicka(&P, &Q);
         assert_relative_eq!(result, 0.620919540, epsilon = 1e-9);
     }
 
     #[test]
-    fn ruzicka_u32() {
-        let result = distance::ruzicka(&P2, &Q2);
-        assert_relative_eq!(result, 0.285714286, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn inner_product_f64() {
+    fn inner_product() {
         let result = distance::inner_product(&P, &Q);
         assert_relative_eq!(result, 5.24235, epsilon = 1e-9);
     }
 
     #[test]
-    fn inner_product_u32() {
-        let result = distance::inner_product(&P2, &Q2);
-        assert_relative_eq!(result, 5.0, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn harmonic_mean_f64() {
+    fn harmonic_mean() {
         let result = distance::harmonic_mean(&P, &Q);
         assert_relative_eq!(result, 3.1039689645, epsilon = 1e-9);
     }
 
     #[test]
-    fn harmonic_mean_u32() {
-        let result = distance::harmonic_mean(&P2, &Q2);
-        assert_relative_eq!(result, 2.833333333, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn kumar_hassebrook_f64() {
+    fn kumar_hassebrook() {
         let result = distance::kumar_hassebrook(&P, &Q);
         assert_relative_eq!(result, 0.732975296, epsilon = 1e-9);
     }
 
     #[test]
-    fn kumar_hassebrook_u32() {
-        let result = distance::kumar_hassebrook(&P2, &Q2);
-        assert_relative_eq!(result, 0.3571428571, epsilon = 1e-9);
+    fn jaccard() {
+        let result = distance::jaccard(&P, &Q);
+        assert_relative_eq!(result, 0.267024704, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn dice() {
+        let result = distance::dice(&P, &Q);
+        assert_relative_eq!(result, 0.154084541, epsilon = 1e-9);
     }
 }

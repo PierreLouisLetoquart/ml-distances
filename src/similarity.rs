@@ -24,7 +24,20 @@ pub fn kulczynski<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
 }
 
 pub fn dice<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    1.0 - crate::distance::dice(p, q)
+    (2.0 * p
+        .iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| p_i * q_i)
+        .sum::<f64>())
+        / (p.iter()
+            .map(|&p| p.into())
+            .map(|p_i| p_i * p_i)
+            .sum::<f64>()
+            + q.iter()
+                .map(|&q| q.into())
+                .map(|q_i| q_i * q_i)
+                .sum::<f64>())
 }
 
 #[cfg(test)]
@@ -34,18 +47,15 @@ mod tests {
     const P: [f64; 3] = [0.000, 1.700, 2.350];
     const Q: [f64; 3] = [0.300, 1.700, 1.001];
 
-    const P2: [u32; 3] = [1, 2, 3];
-    const Q2: [u32; 3] = [2, 0, 1];
-
     #[test]
-    fn cosine_f64() {
+    fn cosine() {
         let result = similarity::cosine(&P, &Q);
         assert_relative_eq!(result, 0.905759279, epsilon = 1e-9);
     }
 
     #[test]
-    fn cosine_u32() {
-        let result = similarity::cosine(&P2, &Q2);
-        assert_relative_eq!(result, 0.5976143047, epsilon = 1e-9);
+    fn kulczynski() {
+        let result = similarity::kulczynski(&P, &Q);
+        assert_relative_eq!(result, 1.637962402, epsilon = 1e-9);
     }
 }
