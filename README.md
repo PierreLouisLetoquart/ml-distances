@@ -43,9 +43,9 @@ assert_eq!(distance, 1.3819554985599212);
 | motyka                 | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
 | ruzicka                | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
 | tanimoto               | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
-| innerProduct           | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
-| harmonicMean           | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
-| cosine                 | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
+| innerProduct           | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
+| harmonicMean           | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
+| cosine                 | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
 | kumarHassebrook        | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
 | jaccard                | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
 | dice                   | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
