@@ -7,7 +7,7 @@ description = "Distance-based methods for vector comparison and analysis. (Porti
 license = "MIT"
 homepage = "https://github.com/PierreLouisLetoquart/ml-distances/"
 repository = "https://github.com/PierreLouisLetoquart/ml-distances/"
-keywords = ["distance", "histogram", "distances", "similarity", "probability density function"]
+keywords = ["distance", "histogram", "distances", "similarity", "density function"]
 
 [dependencies]
 approx = "0.5.1"
