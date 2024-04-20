@@ -14,12 +14,14 @@ ml_distance = "0.1.0"
 And place this in your code:
 
 ```rust
-const a: [f64; 3] = [0.000, 1.700, 2.350];
-const b: [f64; 3] = [0.300, 1.700, 1.001];
+let a: [f64; 3] = [0.000, 1.700, 2.350];
+let b: [f64; 3] = [0.300, 1.700, 1.001];
 
 let distance = euclidean(&a, &b);
 assert_eq!(distance, 1.3819554985599212);
 ```
+
+> Can be used with any `T` that implement `Into<f64>`, (e.g. `let a = vec![1,4,2]` works etc.)
 
 ## Distances Implemented
 
