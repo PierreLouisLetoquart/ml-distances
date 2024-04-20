@@ -40,6 +40,14 @@ pub fn dice<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
                 .sum::<f64>())
 }
 
+pub fn fidelity<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| (p_i * q_i).sqrt())
+        .sum()
+}
+
 #[cfg(test)]
 mod tests {
     use crate::similarity;
@@ -57,5 +65,11 @@ mod tests {
     fn kulczynski() {
         let result = similarity::kulczynski(&P, &Q);
         assert_relative_eq!(result, 1.637962402, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn fidelity() {
+        let result = similarity::fidelity(&P, &Q);
+        assert_relative_eq!(result, 3.233737266, epsilon = 1e-9);
     }
 }

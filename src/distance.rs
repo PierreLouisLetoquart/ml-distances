@@ -214,48 +214,85 @@ pub fn dice<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
                 .sum::<f64>())
 }
 
-pub fn fidelity<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
-}
-
 pub fn bhattacharyya<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    -(p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| (p_i * q_i).sqrt())
+        .sum::<f64>())
+    .ln()
 }
 
 pub fn hellinger<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    (2.0 * p
+        .iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| (p_i.sqrt() - q_i.sqrt()).powi(2))
+        .sum::<f64>())
+    .sqrt()
 }
 
 pub fn matusita<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| (p_i.sqrt() - q_i.sqrt()).powi(2))
+        .sum::<f64>()
+        .sqrt()
 }
 
 pub fn squared_chord<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| (p_i.sqrt() - q_i.sqrt()).powi(2))
+        .sum::<f64>()
 }
 
 pub fn squared_euclidean<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| (p_i - q_i).powi(2))
+        .sum::<f64>()
 }
 
 pub fn pearson<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| ((p_i - q_i).powi(2) / q_i))
+        .sum::<f64>()
 }
 
 pub fn neyman<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| ((p_i - q_i).powi(2) / p_i))
+        .sum::<f64>()
 }
 
 pub fn squared<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| ((p_i - q_i).powi(2) / (p_i + q_i)))
+        .sum::<f64>()
 }
 
 pub fn probabilistic_symmetric<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    2.0 * squared(p, q)
 }
 
 pub fn divergence<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    2.0 * p
+        .iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| ((p_i - q_i).powi(2) / (p_i + q_i).powi(2)))
+        .sum::<f64>()
 }
 
 pub fn clark<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
@@ -427,5 +464,66 @@ mod tests {
     fn dice() {
         let result = distance::dice(&P, &Q);
         assert_relative_eq!(result, 0.154084541, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn bhattacharyya() {
+        let result = distance::bhattacharyya(&P, &Q);
+        assert_relative_eq!(result, -1.173638517, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn hellinger() {
+        let result = distance::hellinger(&P, &Q);
+        assert_relative_eq!(result, 1.080301318, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn matusita() {
+        let result = distance::matusita(&P, &Q);
+        assert_relative_eq!(result, 0.7638883876, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn squared_chord() {
+        let result = distance::squared_chord(&P, &Q);
+        assert_relative_eq!(result, 0.5835254687, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn squared_euclidean() {
+        let result = distance::squared_euclidean(&P, &Q);
+        assert_relative_eq!(result, 1.909801, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn pearson() {
+        let result = distance::pearson(&P, &Q);
+        assert_relative_eq!(result, 2.117983017, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn neyman() {
+        // invert P and Q to avoid division by zero
+        let result = distance::neyman(&Q, &P);
+        assert_relative_eq!(result, 2.117983017, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn squared() {
+        let result = distance::squared(&P, &Q);
+        assert_relative_eq!(result, 0.843062071, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn probabilistic_symmetric() {
+        let result = distance::probabilistic_symmetric(&P, &Q);
+        assert_relative_eq!(result, 1.686124142, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn divergence() {
+        let result = distance::divergence(&P, &Q);
+        assert_relative_eq!(result, 2.32411941, epsilon = 1e-9);
     }
 }
