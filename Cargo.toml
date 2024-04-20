@@ -1,13 +1,13 @@
 [package]
 name = "ml-distance"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Pierre-Louis Létoquart <randlgint@proton.me>"]
 description = "Distance-based methods for vector comparison and analysis. (Porting of the JS/TS pkg `ml-distance` to Rust)"
 license = "MIT"
 homepage = "https://github.com/PierreLouisLetoquart/ml-distances/"
 repository = "https://github.com/PierreLouisLetoquart/ml-distances/"
-keywords = ["distance", "histogram", "distances", "similarity", "density-function"]
+keywords = ["distance", "histogram", "vector", "similarity", "density-function"]
 
 [dependencies]
 approx = "0.5.1"
