@@ -3,10 +3,10 @@ name = "ml-distance"
 version = "0.1.0"
 edition = "2021"
 authors = ["Pierre-Louis Létoquart <randlgint@proton.me>"]
-description = ""
+description = "Distance-based methods for vector comparison and analysis. (Porting of the JS/TS pkg `ml-distance` to Rust)"
 license = "MIT"
-homepage = ""
-repository = ""
+homepage = "https://github.com/PierreLouisLetoquart/ml-distances/"
+repository = "https://github.com/PierreLouisLetoquart/ml-distances/"
 keywords = ["vector-db", "vector", "distances", "similarity", "cosine distance", "l2 norm"]
 
 [dependencies]
