@@ -4,24 +4,43 @@ This Rust crate is based on the paper [Comprehensive Survey on Distance/Similari
 
 ## Usage
 
-Add this to your `Cargo.toml`:
+Run the following Cargo command in your project directory:
+
+```bash
+cargo add ml-distance
+```
+
+Or add the following line to your Cargo.toml:
 
 ```toml
-[dependencies]
-ml_distance = "0.1.0"
+ml-distance = "0.2.1"
 ```
 
-And place this in your code:
+And then use it in your code like this:
+
+> Note: The distances and similarities are implemented for all types that implement the `Into\<f64\>` trait. (e.g. `f64`, `i32`, `u32`, `i64`, ...)
 
 ```rust
-let a: [f64; 3] = [0.000, 1.700, 2.350];
-let b: [f64; 3] = [0.300, 1.700, 1.001];
+use ml_distance::distance;
 
-let distance = euclidean(&a, &b);
-assert_eq!(distance, 1.3819554985599212);
+let p: [f64; 3] = [0.000, 1.700, 2.350];
+let q: [f64; 3] = [0.300, 1.700, 1.001];
+
+let dist = distance::euclidean(&p, &q);
+assert_eq!(dist, 1.3819554985599212);
 ```
 
-> Can be used with any `T` that implement `Into<f64>`, (e.g. `let a = vec![1,4,2]` works etc.)
+Or for similarityies
+
+```rust
+use ml_distance::similarity;
+
+let p = vec![0, 1, 2, 1, 1, 3];
+let q = vec![0, 1, 1, 5, 9, 3];
+
+let dist = similarity::cosine(&p, &q);
+assert_eq!(dist, 0.6009252125773316);
+```
 
 ## Distances Implemented
 
