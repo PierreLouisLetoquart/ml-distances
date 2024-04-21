@@ -102,4 +102,3 @@ assert_eq!(dist, 0.6009252125773316);
 | jaccard      | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | 🔜     |
 | motyka       | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | 🔜     |
 | squaredChord | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | 🔜     |
-| tanimoto     | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | 🔜     |

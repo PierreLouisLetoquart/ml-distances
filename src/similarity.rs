@@ -48,6 +48,75 @@ pub fn fidelity<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
         .sum()
 }
 
+pub fn czekanowski<T: Into<f64> + Copy>(p: [T], q: [T]) -> f64 {
+    (2.0 * p
+        .iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| p_i.min(q_i))
+        .sum::<f64>())
+        / p.iter()
+            .map(|&p| p.into())
+            .zip(q.iter().map(|&q| q.into()))
+            .map(|(p_i, q_i)| p_i + q_i)
+            .sum::<f64>()
+}
+
+pub fn intersection<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| p_i.min(q_i))
+        .sum::<f64>()
+}
+
+pub fn kumar_hassebrook<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
+    let pq = p
+        .iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| p_i * q_i)
+        .sum::<f64>();
+
+    pq / (p
+        .iter()
+        .map(|&p| p.into())
+        .map(|p_i| p_i * p_i)
+        .sum::<f64>()
+        + q.iter()
+            .map(|&q| q.into())
+            .map(|q_i| q_i * q_i)
+            .sum::<f64>()
+        - pq)
+}
+
+pub fn jaccard<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
+    kumar_hassebrook(p, q)
+}
+
+pub fn motyka<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| p_i.min(q_i))
+        .sum::<f64>()
+        / p.iter()
+            .map(|&p| p.into())
+            .zip(q.iter().map(|&q| q.into()))
+            .map(|(p_i, q_i)| p_i + q_i)
+            .sum::<f64>()
+}
+
+pub fn squared_chord<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
+    2.0 * p
+        .iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| (p_i * q_i).sqrt())
+        .sum::<f64>()
+        - 1.0
+}
+
 #[cfg(test)]
 mod tests {
     use crate::similarity;
@@ -71,5 +140,11 @@ mod tests {
     fn fidelity() {
         let result = similarity::fidelity(&P, &Q);
         assert_relative_eq!(result, 3.233737266, epsilon = 1e-9);
+    }
+
+    #[test]
+    fn kumar_hassebrook() {
+        let result = similarity::kumar_hassebrook(&P, &Q);
+        assert_relative_eq!(result, 0.732975296, epsilon = 1e-9);
     }
 }

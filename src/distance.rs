@@ -153,7 +153,7 @@ pub fn ruzicka<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
             .sum::<f64>()
 }
 
-pub fn tanimoto<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
+pub fn tanimoto<T: Into<f64> + Copy>(_p: &[T], _q: &[T]) -> f64 {
     unimplemented!()
 }
 
@@ -174,7 +174,7 @@ pub fn harmonic_mean<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
         .sum::<f64>()
 }
 
-pub fn kumar_hassebrook<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
+pub fn jaccard<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
     let pq = p
         .iter()
         .map(|&p| p.into())
@@ -182,20 +182,16 @@ pub fn kumar_hassebrook<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
         .map(|(p_i, q_i)| p_i * q_i)
         .sum::<f64>();
 
-    pq / (p
-        .iter()
-        .map(|&p| p.into())
-        .map(|p_i| p_i * p_i)
-        .sum::<f64>()
-        + q.iter()
-            .map(|&q| q.into())
-            .map(|q_i| q_i * q_i)
+    1.0 - (pq
+        / (p.iter()
+            .map(|&p| p.into())
+            .map(|p_i| p_i * p_i)
             .sum::<f64>()
-        - pq)
-}
-
-pub fn jaccard<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    1.0 - kumar_hassebrook(p, q)
+            + q.iter()
+                .map(|&q| q.into())
+                .map(|q_i| q_i * q_i)
+                .sum::<f64>()
+            - pq))
 }
 
 pub fn dice<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
@@ -296,47 +292,117 @@ pub fn divergence<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
 }
 
 pub fn clark<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| ((p_i - q_i).abs() / (p_i + q_i)).powi(2))
+        .sum::<f64>()
+        .sqrt()
 }
 
 pub fn additive_symmetric<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| ((p_i - q_i).powi(2) * (p_i + q_i)) / (p_i * q_i))
+        .sum::<f64>()
 }
 
 pub fn kullback_leibler<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| p_i * (p_i / q_i).ln())
+        .sum::<f64>()
 }
 
 pub fn jeffreys<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| (p_i - q_i) * (p_i / q_i).ln())
+        .sum::<f64>()
 }
 
 pub fn k_divergence<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| p_i * ((2.0 * p_i) / (p_i + q_i)).ln())
+        .sum::<f64>()
 }
 
 pub fn topsoe<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| {
+            (p_i * ((2.0 * p_i) / (p_i + q_i)).ln()) + (q_i * ((2.0 * q_i) / (p_i + q_i)).ln())
+        })
+        .sum::<f64>()
 }
 
 pub fn jensen_shannon<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    let s1 = p
+        .iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| p_i * ((2.0 * p_i) / (p_i + q_i)).ln())
+        .sum::<f64>();
+
+    let s2 = p
+        .iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| q_i * ((2.0 * q_i) / (p_i + q_i)).ln())
+        .sum::<f64>();
+
+    (s1 + s2) / 2.0
 }
 
 pub fn jensen_difference<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| {
+            ((p_i * p_i.ln() + q_i * q_i.ln()) / 2.0)
+                - ((p_i + q_i) / 2.0) * ((p_i + q_i) / 2.0).ln()
+        })
+        .sum::<f64>()
 }
 
 pub fn taneja<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| ((p_i + q_i) / 2.0) * ((p_i + q_i) / (2.0 * (p_i * q_i).sqrt())).ln())
+        .sum::<f64>()
 }
 
 pub fn kumar_johnson<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    p.iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| ((p_i * p_i - q_i * q_i).powi(2)) / (2.0 * (p_i * q_i).powf(3.0 / 2.0)))
+        .sum::<f64>()
 }
 
 pub fn avg<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
-    unimplemented!()
+    let sum = p
+        .iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| (p_i - q_i).abs())
+        .sum::<f64>();
+
+    let max = p
+        .iter()
+        .map(|&p| p.into())
+        .zip(q.iter().map(|&q| q.into()))
+        .map(|(p_i, q_i)| (p_i - q_i).abs())
+        .fold(f64::NEG_INFINITY, f64::max);
+
+    (sum + max) / 2.0
 }
 
 #[cfg(test)]
@@ -446,12 +512,6 @@ mod tests {
     fn harmonic_mean() {
         let result = distance::harmonic_mean(&P, &Q);
         assert_relative_eq!(result, 3.1039689645, epsilon = 1e-9);
-    }
-
-    #[test]
-    fn kumar_hassebrook() {
-        let result = distance::kumar_hassebrook(&P, &Q);
-        assert_relative_eq!(result, 0.732975296, epsilon = 1e-9);
     }
 
     #[test]
