@@ -77,17 +77,17 @@ assert_eq!(dist, 0.6009252125773316);
 | squared                | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
 | probabilisticSymmetric | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
 | divergence             | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
-| clark                  | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
-| additiveSymmetric      | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
-| kullbackLeibler        | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
-| jeffreys               | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
-| kdivergence            | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
-| topsoe                 | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
-| jensenShannon          | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
-| jensenDifference       | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
-| taneja                 | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
-| kumarJohnson           | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
-| avg                    | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | 🔜     |
+| clark                  | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
+| additiveSymmetric      | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
+| kullbackLeibler        | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
+| jeffreys               | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
+| kdivergence            | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
+| topsoe                 | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
+| jensenShannon          | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
+| jensenDifference       | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
+| taneja                 | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
+| kumarJohnson           | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
+| avg                    | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf)                          | ✅     |
 
 ## Similarities Implemented
 
@@ -97,8 +97,8 @@ assert_eq!(dist, 0.6009252125773316);
 | dice         | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | ✅     |
 | fidelity     | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | ✅     |
 | kulczynski   | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | ✅     |
-| czekanowski  | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | 🔜     |
-| intersection | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | 🔜     |
-| jaccard      | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | 🔜     |
-| motyka       | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | 🔜     |
-| squaredChord | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | 🔜     |
+| czekanowski  | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | ✅     |
+| intersection | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | ✅     |
+| jaccard      | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | ✅     |
+| motyka       | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | ✅     |
+| squaredChord | [Link](http://www.naun.org/main/NAUN/ijmmas/mmmas-49.pdf) | ✅     |
