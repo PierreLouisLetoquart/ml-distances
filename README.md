@@ -13,7 +13,7 @@ cargo add ml-distance
 Or add the following line to your Cargo.toml:
 
 ```toml
-ml-distance = "0.2.1"
+ml-distance = "1.0.0"
 ```
 
 And then use it in your code like this:
