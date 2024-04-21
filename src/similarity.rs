@@ -48,7 +48,7 @@ pub fn fidelity<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
         .sum()
 }
 
-pub fn czekanowski<T: Into<f64> + Copy>(p: [T], q: [T]) -> f64 {
+pub fn czekanowski<T: Into<f64> + Copy>(p: &[T], q: &[T]) -> f64 {
     (2.0 * p
         .iter()
         .map(|&p| p.into())
