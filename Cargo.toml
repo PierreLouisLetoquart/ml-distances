@@ -1,6 +1,6 @@
 [package]
 name = "ml-distance"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 authors = ["Pierre-Louis Létoquart <randlgint@proton.me>"]
 description = "Distance-based methods for vector comparison and analysis. (Porting of the JS/TS pkg `ml-distance` to Rust)"
